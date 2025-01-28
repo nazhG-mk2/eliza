@@ -60,6 +60,43 @@ export function createApiRouter(
         });
     });
 
+    /**
+     * POST /agents/:agentId/stop
+     */
+    router.post("/agents/:agentId/stop", (req, res) => {
+        const agentId = req.params.agentId;
+        const agent: AgentRuntime = agents.get(agentId);
+
+        elizaLogger.log("Stopping agent", agent.character.name, agentId);
+        elizaLogger.debug(agent);
+
+        if (!agent) {
+            res.status(404).json({ error: "Agent not found" });
+            return;
+        }
+
+        agent.stop();
+        directClient.unregisterAgent(agent);
+
+        res.json({ id: agentId });
+    });
+
+    /**
+     * POST /agents/:agentId/initalize
+     */
+    router.post("/agents/:agentId/initialize", async (req, res) => {
+        const agentId = req.params.agentId;
+        const agent: AgentRuntime = agents.get(agentId);
+
+        if (!agent) {
+            res.status(404).json({ error: "Agent not found" });
+            return;
+        }
+
+        await agent.initialize();
+        res.json({ id: agentId });
+    });
+
     router.post("/agents/:agentId/set", async (req, res) => {
         const agentId = req.params.agentId;
         console.log("agentId", agentId);

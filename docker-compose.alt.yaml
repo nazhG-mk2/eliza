@@ -1,0 +1,12 @@
+services:
+    eliza-tee:
+        image: nazhg/eliza-tee:0.17.1
+        env_file:
+            - .env
+        ports:
+            - "3000:3000"
+        volumes:
+            - tee:/path/in/container
+
+volumes:
+    tee:
