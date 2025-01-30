@@ -68,7 +68,7 @@ export function createApiRouter(
         const agent: AgentRuntime = agents.get(agentId);
 
         elizaLogger.log("Stopping agent", agent.character.name, agentId);
-        elizaLogger.debug(agent);
+        elizaLogger.debug({ agent, agents });
 
         if (!agent) {
             res.status(404).json({ error: "Agent not found" });
