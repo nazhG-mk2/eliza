@@ -64,37 +64,25 @@ export function createApiRouter(
      * POST /agents/:agentId/stop
      */
     router.post("/agents/:agentId/stop", (req, res) => {
-        const agentId = req.params.agentId;
-        const agent: AgentRuntime = agents.get(agentId);
+        elizaLogger.log("Stopping ...");
+        elizaLogger.debug({ agents, directClient });
+        console.log({ agents, directClient });
 
-        elizaLogger.log("Stopping agent", agent.character.name, agentId);
-        elizaLogger.debug({ agent, agents });
+        directClient.stop()
 
-        if (!agent) {
-            res.status(404).json({ error: "Agent not found" });
-            return;
-        }
-
-        agent.stop();
-        directClient.unregisterAgent(agent);
-
-        res.json({ id: agentId });
+        res.json({
+            success: true,
+        });
     });
 
     /**
      * POST /agents/:agentId/initalize
      */
     router.post("/agents/:agentId/initialize", async (req, res) => {
-        const agentId = req.params.agentId;
-        const agent: AgentRuntime = agents.get(agentId);
-
-        if (!agent) {
-            res.status(404).json({ error: "Agent not found" });
-            return;
-        }
-
-        await agent.initialize();
-        res.json({ id: agentId });
+        directClient.start(3000);
+        res.json({
+            success: true,
+        });
     });
 
     router.post("/agents/:agentId/set", async (req, res) => {
