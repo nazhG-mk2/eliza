@@ -51,5 +51,7 @@ COPY --from=builder /app/packages ./packages
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/characters ./characters
 
+EXPOSE 3000
+
 # Set the command to run the application
-CMD ["pnpm", "start", "--character=\"characters/Eliza.character.json\""]
+CMD ["pnpm", "start"]

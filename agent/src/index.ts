@@ -754,7 +754,7 @@ const startAgents = async () => {
     let serverPort = parseInt(settings.SERVER_PORT || "3000");
     const args = parseArguments();
     let charactersArg = args.characters || args.character;
-    let characters = [defaultCharacter];
+    let characters = [];
 
     if (charactersArg) {
         characters = await loadCharacters(charactersArg);

@@ -92,10 +92,10 @@ export function createApiRouter(
 
         // update character
         if (agent) {
-            // stop agent
-            agent.stop();
-            directClient.unregisterAgent(agent);
-            // if it has a different name, the agentId will change
+            return res.status(400).json({
+                success: false,
+                message: "Agent already exists",
+            });
         }
 
         // load character from body
